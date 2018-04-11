@@ -1,11 +1,11 @@
 package com.hrw.datedialoglib;
 
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -91,7 +91,6 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     public void onClick(DialogInterface dialog, int which) {
         // 如果是“取 消”按钮，则返回，如果是“确 定”按钮，则往下执行
         switch (which) {
@@ -129,7 +128,7 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
      * @param hour   The time hour.
      * @param minute The time minute.
      */
-    @RequiresApi(api = Build.VERSION_CODES.M)
+    @TargetApi(Build.VERSION_CODES.M)
     public void setStartDefaultTime(int hour, int minute) {
         mTimePicker_start.setHour(hour);
         mTimePicker_start.setMinute(minute);
@@ -141,13 +140,13 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
      * @param hour   The time hour.
      * @param minute The time minute.
      */
-    @RequiresApi(api = Build.VERSION_CODES.M)
+    @TargetApi(Build.VERSION_CODES.M)
     public void setEndDefaultTime(int hour, int minute) {
         mTimePicker_end.setHour(hour);
         mTimePicker_end.setMinute(minute);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+    @TargetApi(Build.VERSION_CODES.M)
     private void tryNotifyDateSet() {
         if (mCallBack != null) {
             mTimePicker_start.clearFocus();
@@ -163,7 +162,7 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
         super.onStop();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public Bundle onSaveInstanceState() {
         Bundle state = super.onSaveInstanceState();
@@ -174,7 +173,6 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
         return state;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
