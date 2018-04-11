@@ -26,6 +26,8 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
     private TimePicker mTimePicker_start;
     private TimePicker mTimePicker_end;
     private TimeDialog.OnTimeSetListener mCallBack;
+    OnSingleTimeListener onsingleTimeListener;
+    OnDoubleTimeListener onDoubleTimeListener;
 
 
     /**
@@ -37,12 +39,27 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
                        TimePicker endTimePicker, int endHour, int endMinute);
     }
 
-    /**
-     * @param context  The context the dialog is to run in.
-     * @param callBack How the parent is notified that the date is set.
-     */
-    public TimeDialog(Context context, TimeDialog.OnTimeSetListener callBack) {
-        this(context, true, 0, callBack);
+    public interface OnSingleTimeListener {
+        void onSingleTime(String time, int Hour, int Minute);
+    }
+
+    public interface OnDoubleTimeListener {
+        void onDoubleTime(String stTime, int startHour, int startMinute,
+                          String endTime, int endHour, int endMinute);
+    }
+
+    public TimeDialog setSingleTimeListener(OnSingleTimeListener singleTimeListener) {
+        this.onsingleTimeListener = singleTimeListener;
+        return this;
+    }
+
+    public TimeDialog setOnDoubleTimeListener(OnDoubleTimeListener onDoubleTimeListener) {
+        this.onDoubleTimeListener = onDoubleTimeListener;
+        return this;
+    }
+
+    public TimeDialog(Context context, boolean isShowDouble) {
+        this(context, isShowDouble, 0, null);
     }
 
     public TimeDialog(Context context, boolean isShowDouble, TimeDialog.OnTimeSetListener callBack) {
@@ -151,8 +168,34 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
         if (mCallBack != null) {
             mTimePicker_start.clearFocus();
             mTimePicker_end.clearFocus();
-            mCallBack.onTimeSet(mTimePicker_start, mTimePicker_start.getHour(), mTimePicker_start.getMinute(),
-                    mTimePicker_end, mTimePicker_end.getHour(), mTimePicker_end.getMinute());
+            int stHour = mTimePicker_start.getHour();
+            int stMinute = mTimePicker_start.getMinute();
+            int endHour = mTimePicker_end.getHour();
+            int endMinute = mTimePicker_end.getMinute();
+            mCallBack.onTimeSet(mTimePicker_start, stHour, stMinute, mTimePicker_end, endHour, endMinute);
+        }
+
+        if (onsingleTimeListener != null) {
+            mTimePicker_start.clearFocus();
+            mTimePicker_end.clearFocus();
+            int stHour = mTimePicker_start.getHour();
+            int stMinute = mTimePicker_start.getMinute();
+            String stringHour = stHour > 9 ? "" + stHour : "0" + stHour;
+            String stringMinute = stMinute > 9 ? "" + stMinute : "0" + stMinute;
+            onsingleTimeListener.onSingleTime(stringHour + ":" + stringMinute, stHour, stMinute);
+        }
+        if (onDoubleTimeListener != null) {
+            mTimePicker_start.clearFocus();
+            mTimePicker_end.clearFocus();
+            int stHour = mTimePicker_start.getHour();
+            int stMinute = mTimePicker_start.getMinute();
+            int endHour = mTimePicker_end.getHour();
+            int endMinute = mTimePicker_end.getMinute();
+            String stringStHour = stHour > 9 ? "" + stHour : "0" + stHour;
+            String stringStMinute = stMinute > 9 ? "" + stMinute : "0" + stMinute;
+            String stringEndHour = endHour > 9 ? "" + endHour : "0" + endHour;
+            String stringEndMinute = endMinute > 9 ? "" + endMinute : "0" + endMinute;
+            onDoubleTimeListener.onDoubleTime(stringStHour + ":" + stringStMinute, stHour, stMinute, stringEndHour + ":" + stringEndMinute, endHour, endMinute);
         }
     }
 

@@ -29,6 +29,8 @@ public class DateDialog extends AlertDialog implements DialogInterface.OnClickLi
     private DatePicker mDatePicker_start;
     private DatePicker mDatePicker_end;
     private OnDateSetListener mCallBack;
+    OnSingleDateListener onSingleDateListener;
+    OnDoubleDateListener onDoubleDateListener;
 
 
     /**
@@ -38,6 +40,29 @@ public class DateDialog extends AlertDialog implements DialogInterface.OnClickLi
 
         void onDateSet(DatePicker startDatePicker, int startYear, int startMonthOfYear, int startDayOfMonth,
                        DatePicker endDatePicker, int endYear, int endMonthOfYear, int endDayOfMonth);
+    }
+
+    public interface OnSingleDateListener {
+        void onSingleDate(String date, int year, int month, int day);
+    }
+
+    public interface OnDoubleDateListener {
+        void onDoubleDate(String stDate, int stYear, int stMonth, int stDay,
+                          String endDate, int endYear, int endMonth, int endDay);
+    }
+
+    public DateDialog setOnSingleDateListener(OnSingleDateListener onSingleDateListener) {
+        this.onSingleDateListener = onSingleDateListener;
+        return this;
+    }
+
+    public DateDialog setOnDoubleDateListener(OnDoubleDateListener onDoubleDateListener) {
+        this.onDoubleDateListener = onDoubleDateListener;
+        return this;
+    }
+
+    public DateDialog(Context context, boolean isShowDouble) {
+        this(context, isShowDouble, true, 0, null, -1, -1, -1);
     }
 
     public DateDialog(Context context, boolean isShowDouble, OnDateSetListener callBack) {
@@ -82,7 +107,7 @@ public class DateDialog extends AlertDialog implements DialogInterface.OnClickLi
             Calendar c = Calendar.getInstance();
             mDatePicker_start.init(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), this);
             mDatePicker_end.init(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), this);
-        }else {
+        } else {
             mDatePicker_start.init(year, monthOfYear, dayOfMonth, this);
             mDatePicker_end.init(year, monthOfYear, dayOfMonth, this);
         }
@@ -94,7 +119,7 @@ public class DateDialog extends AlertDialog implements DialogInterface.OnClickLi
             llstTitle.setVisibility(View.GONE);
 
             DatePickerUtils.resizeSinglePicker(mDatePicker_start);
-        }else {
+        } else {
             DatePickerUtils.resizePicker(mDatePicker_start);
             DatePickerUtils.resizePicker(mDatePicker_end);
         }
@@ -196,8 +221,43 @@ public class DateDialog extends AlertDialog implements DialogInterface.OnClickLi
         if (mCallBack != null) {
             mDatePicker_start.clearFocus();
             mDatePicker_end.clearFocus();
-            mCallBack.onDateSet(mDatePicker_start, mDatePicker_start.getYear(), mDatePicker_start.getMonth(), mDatePicker_start.getDayOfMonth(),
-                    mDatePicker_end, mDatePicker_end.getYear(), mDatePicker_end.getMonth(), mDatePicker_end.getDayOfMonth());
+            int stYear = mDatePicker_start.getYear();
+            int stMonth = mDatePicker_start.getMonth();
+            int stDay = mDatePicker_start.getDayOfMonth()+1;
+            int endYear = mDatePicker_end.getYear();
+            int endMonth = mDatePicker_end.getMonth();
+            int endDay = mDatePicker_end.getDayOfMonth();
+            mCallBack.onDateSet(mDatePicker_start, stYear, stMonth, stDay, mDatePicker_end, endYear, endMonth, endDay);
+        }
+
+        if (onSingleDateListener != null) {
+            mDatePicker_start.clearFocus();
+            mDatePicker_end.clearFocus();
+            int stYear = mDatePicker_start.getYear();
+            int stMonth = mDatePicker_start.getMonth() + 1;
+            int stDay = mDatePicker_start.getDayOfMonth();
+            String stringMonth = stMonth > 9 ? "" + stMonth : "0" + stMonth;
+            String stringDay = stDay > 9 ? "" + stDay : "0" + stDay;
+            String date = stYear + "-" + stringMonth + "-" + stringDay;
+            onSingleDateListener.onSingleDate(date, stYear, stMonth, stDay);
+        }
+
+        if (onDoubleDateListener != null) {
+            mDatePicker_start.clearFocus();
+            mDatePicker_end.clearFocus();
+            int stYear = mDatePicker_start.getYear();
+            int stMonth = mDatePicker_start.getMonth() + 1;
+            int stDay = mDatePicker_start.getDayOfMonth();
+            int endYear = mDatePicker_end.getYear();
+            int endMonth = mDatePicker_end.getMonth() + 1;
+            int endDay = mDatePicker_end.getDayOfMonth();
+            String stringStMonth = stMonth > 9 ? "" + stMonth : "0" + stMonth;
+            String stringStDay = stDay > 9 ? "" + stDay : "0" + stDay;
+            String stringEndMonth = endMonth > 9 ? "" + endMonth : "0" + endMonth;
+            String stringEndDay = endDay > 9 ? "" + endDay : "0" + endDay;
+            String stDate = stYear + "-" + stringStMonth + "-" + stringStDay;
+            String enDDate = endYear + "-" + stringEndMonth + "-" + stringEndDay;
+            onDoubleDateListener.onDoubleDate(stDate, stYear, stMonth, stDay, enDDate, endYear, endMonth, endDay);
         }
     }
 
