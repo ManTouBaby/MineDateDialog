@@ -1,4 +1,4 @@
-package com.hrw.datedialoglib;
+package com.hrw.datedialoglib.date;
 
 import android.content.Context;
 import android.util.DisplayMetrics;

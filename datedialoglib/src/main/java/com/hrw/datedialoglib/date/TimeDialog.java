@@ -1,17 +1,18 @@
-package com.hrw.datedialoglib;
+package com.hrw.datedialoglib.date;
 
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.hrw.datedialoglib.R;
 
 /**
  * @author:Administrator
@@ -26,7 +27,9 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
     private String END_MINUTE = "end_minute";
     private TimePicker mTimePicker_start;
     private TimePicker mTimePicker_end;
-    private TimeDialog.OnTimeSetListener mCallBack;
+    private OnTimeSetListener mCallBack;
+    OnSingleTimeListener onsingleTimeListener;
+    OnDoubleTimeListener onDoubleTimeListener;
 
 
     /**
@@ -38,15 +41,30 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
                        TimePicker endTimePicker, int endHour, int endMinute);
     }
 
-    /**
-     * @param context  The context the dialog is to run in.
-     * @param callBack How the parent is notified that the date is set.
-     */
-    public TimeDialog(Context context, TimeDialog.OnTimeSetListener callBack) {
-        this(context, true, 0, callBack);
+    public interface OnSingleTimeListener {
+        void onSingleTime(String time, int Hour, int Minute);
     }
 
-    public TimeDialog(Context context, boolean isShowDouble, TimeDialog.OnTimeSetListener callBack) {
+    public interface OnDoubleTimeListener {
+        void onDoubleTime(String stTime, int startHour, int startMinute,
+                          String endTime, int endHour, int endMinute);
+    }
+
+    public TimeDialog setSingleTimeListener(OnSingleTimeListener singleTimeListener) {
+        this.onsingleTimeListener = singleTimeListener;
+        return this;
+    }
+
+    public TimeDialog setOnDoubleTimeListener(OnDoubleTimeListener onDoubleTimeListener) {
+        this.onDoubleTimeListener = onDoubleTimeListener;
+        return this;
+    }
+
+    public TimeDialog(Context context, boolean isShowDouble) {
+        this(context, isShowDouble, 0, null);
+    }
+
+    public TimeDialog(Context context, boolean isShowDouble, OnTimeSetListener callBack) {
         this(context, isShowDouble, 0, callBack);
     }
 
@@ -55,7 +73,7 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
      * @param theme    the theme to apply to this dialog
      * @param callBack How the parent is notified that the date is set.
      */
-    public TimeDialog(Context context, boolean isShowDouble, int theme, TimeDialog.OnTimeSetListener callBack) {
+    public TimeDialog(Context context, boolean isShowDouble, int theme, OnTimeSetListener callBack) {
         super(context, theme);
 
         mCallBack = callBack;
@@ -92,7 +110,6 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     public void onClick(DialogInterface dialog, int which) {
         // 如果是“取 消”按钮，则返回，如果是“确 定”按钮，则往下执行
         switch (which) {
@@ -130,7 +147,7 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
      * @param hour   The time hour.
      * @param minute The time minute.
      */
-    @RequiresApi(api = Build.VERSION_CODES.M)
+    @TargetApi(Build.VERSION_CODES.M)
     public void setStartDefaultTime(int hour, int minute) {
         mTimePicker_start.setHour(hour);
         mTimePicker_start.setMinute(minute);
@@ -142,19 +159,45 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
      * @param hour   The time hour.
      * @param minute The time minute.
      */
-    @RequiresApi(api = Build.VERSION_CODES.M)
+    @TargetApi(Build.VERSION_CODES.M)
     public void setEndDefaultTime(int hour, int minute) {
         mTimePicker_end.setHour(hour);
         mTimePicker_end.setMinute(minute);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+    @TargetApi(Build.VERSION_CODES.M)
     private void tryNotifyDateSet() {
         if (mCallBack != null) {
             mTimePicker_start.clearFocus();
             mTimePicker_end.clearFocus();
-            mCallBack.onTimeSet(mTimePicker_start, mTimePicker_start.getHour(), mTimePicker_start.getMinute(),
-                    mTimePicker_end, mTimePicker_end.getHour(), mTimePicker_end.getMinute());
+            int stHour = mTimePicker_start.getHour();
+            int stMinute = mTimePicker_start.getMinute();
+            int endHour = mTimePicker_end.getHour();
+            int endMinute = mTimePicker_end.getMinute();
+            mCallBack.onTimeSet(mTimePicker_start, stHour, stMinute, mTimePicker_end, endHour, endMinute);
+        }
+
+        if (onsingleTimeListener != null) {
+            mTimePicker_start.clearFocus();
+            mTimePicker_end.clearFocus();
+            int stHour = mTimePicker_start.getHour();
+            int stMinute = mTimePicker_start.getMinute();
+            String stringHour = stHour > 9 ? "" + stHour : "0" + stHour;
+            String stringMinute = stMinute > 9 ? "" + stMinute : "0" + stMinute;
+            onsingleTimeListener.onSingleTime(stringHour + ":" + stringMinute, stHour, stMinute);
+        }
+        if (onDoubleTimeListener != null) {
+            mTimePicker_start.clearFocus();
+            mTimePicker_end.clearFocus();
+            int stHour = mTimePicker_start.getHour();
+            int stMinute = mTimePicker_start.getMinute();
+            int endHour = mTimePicker_end.getHour();
+            int endMinute = mTimePicker_end.getMinute();
+            String stringStHour = stHour > 9 ? "" + stHour : "0" + stHour;
+            String stringStMinute = stMinute > 9 ? "" + stMinute : "0" + stMinute;
+            String stringEndHour = endHour > 9 ? "" + endHour : "0" + endHour;
+            String stringEndMinute = endMinute > 9 ? "" + endMinute : "0" + endMinute;
+            onDoubleTimeListener.onDoubleTime(stringStHour + ":" + stringStMinute, stHour, stMinute, stringEndHour + ":" + stringEndMinute, endHour, endMinute);
         }
     }
 
@@ -164,7 +207,7 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
         super.onStop();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public Bundle onSaveInstanceState() {
         Bundle state = super.onSaveInstanceState();
@@ -175,7 +218,6 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
         return state;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);

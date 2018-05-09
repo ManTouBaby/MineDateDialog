@@ -62,7 +62,7 @@ public class CommonDialog extends Dialog {
     public TextView text(@IdRes int resId, String label) {
         TextView textView = null;
         if (findViewById(resId) instanceof TextView) {
-            textView = findViewById(resId);
+            textView = (TextView) findViewById(resId);
             textView.setText(label);
         }
         return textView;
@@ -71,7 +71,7 @@ public class CommonDialog extends Dialog {
     public TextView textColor(@IdRes int resId, @ColorInt int color) {
         TextView textView = null;
         if (findViewById(resId) instanceof TextView) {
-            textView = findViewById(resId);
+            textView = (TextView) findViewById(resId);
             textView.setTextColor(color);
         }
         return textView;
@@ -80,7 +80,7 @@ public class CommonDialog extends Dialog {
     public TextView getText(@IdRes int resId) {
         TextView textView = null;
         if (findViewById(resId) instanceof TextView) {
-            textView = findViewById(resId);
+            textView = (TextView) findViewById(resId);
         }
         return textView;
     }
@@ -88,7 +88,7 @@ public class CommonDialog extends Dialog {
     public ProgressBar progressBar(@IdRes int resId, int progressBarSize) {
         ProgressBar progressBar = null;
         if (findViewById(resId) instanceof ProgressBar) {
-            progressBar = findViewById(resId);
+            progressBar = (ProgressBar) findViewById(resId);
             progressBar.setProgress(progressBarSize);
         }
         return progressBar;
@@ -97,7 +97,7 @@ public class CommonDialog extends Dialog {
     public ImageView getImage(@IdRes int resId) {
         ImageView imageView = null;
         if (findViewById(resId) instanceof ImageView) {
-            imageView = findViewById(resId);
+            imageView = (ImageView) findViewById(resId);
         }
         return imageView;
     }
@@ -105,7 +105,7 @@ public class CommonDialog extends Dialog {
     public ProgressBar getProgressBar(@IdRes int resId) {
         ProgressBar progressBar = null;
         if (findViewById(resId) instanceof ProgressBar) {
-            progressBar = findViewById(resId);
+            progressBar = (ProgressBar) findViewById(resId);
         }
         return progressBar;
     }
@@ -113,7 +113,7 @@ public class CommonDialog extends Dialog {
     public Button getButton(@IdRes int resId) {
         Button button = null;
         if (findViewById(resId) instanceof Button) {
-            button = findViewById(resId);
+            button = (Button) findViewById(resId);
         }
         return button;
     }
@@ -121,7 +121,7 @@ public class CommonDialog extends Dialog {
     public LinearLayout getLinearLayout(@IdRes int resId) {
         LinearLayout linearLayout = null;
         if (findViewById(resId) instanceof LinearLayout) {
-            linearLayout = findViewById(resId);
+            linearLayout = (LinearLayout) findViewById(resId);
         }
         return linearLayout;
     }
@@ -129,7 +129,7 @@ public class CommonDialog extends Dialog {
     public RelativeLayout getRelativeLayout(@IdRes int resId) {
         RelativeLayout relativeLayout = null;
         if (findViewById(resId) instanceof RelativeLayout) {
-            relativeLayout = findViewById(resId);
+            relativeLayout = (RelativeLayout) findViewById(resId);
         }
         return relativeLayout;
     }

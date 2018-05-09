@@ -1,9 +1,12 @@
-package com.hrw.datedialoglib;
+package com.hrw.datedialoglib.loading;
 
 import android.content.Context;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.hrw.datedialoglib.CommonDialog;
+import com.hrw.datedialoglib.DialogType;
+import com.hrw.datedialoglib.R;
 import com.hrw.loainganimviewlibrary.ball.BallAnimView;
 
 

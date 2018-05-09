@@ -5,8 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
-import com.hrw.datedialoglib.DateDialog;
-import com.hrw.datedialoglib.TimeDialog;
+import com.hrw.datedialoglib.date.DateDialog;
+import com.hrw.datedialoglib.date.TimeDialog;
 
 public class MainActivity extends AppCompatActivity {
 
