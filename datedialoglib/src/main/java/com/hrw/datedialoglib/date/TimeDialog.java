@@ -32,6 +32,7 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
     OnDoubleTimeListener onDoubleTimeListener;
 
 
+
     /**
      * The callback used to indicate the user is done filling in the date.
      */
@@ -92,6 +93,19 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
         mTimePicker_end = (TimePicker) view.findViewById(R.id.tp_time_picker_end);
         mTimePicker_start.setIs24HourView(true);
         mTimePicker_end.setIs24HourView(true);
+        mTimePicker_start.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+            @Override
+            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+
+            }
+        });
+
+        mTimePicker_end.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+            @Override
+            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+
+            }
+        });
 
 
         if (!isShowDouble) {
@@ -165,23 +179,23 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
         mTimePicker_end.setMinute(minute);
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
+    //    @TargetApi(Build.VERSION_CODES.M)
     private void tryNotifyDateSet() {
         if (mCallBack != null) {
             mTimePicker_start.clearFocus();
             mTimePicker_end.clearFocus();
-            int stHour = mTimePicker_start.getHour();
-            int stMinute = mTimePicker_start.getMinute();
-            int endHour = mTimePicker_end.getHour();
-            int endMinute = mTimePicker_end.getMinute();
+            int stHour = mTimePicker_start.getCurrentHour();
+            int stMinute = mTimePicker_start.getCurrentMinute();
+            int endHour = mTimePicker_end.getCurrentHour();
+            int endMinute = mTimePicker_end.getCurrentMinute();
             mCallBack.onTimeSet(mTimePicker_start, stHour, stMinute, mTimePicker_end, endHour, endMinute);
         }
 
         if (onsingleTimeListener != null) {
             mTimePicker_start.clearFocus();
             mTimePicker_end.clearFocus();
-            int stHour = mTimePicker_start.getHour();
-            int stMinute = mTimePicker_start.getMinute();
+            int stHour = mTimePicker_start.getCurrentHour();
+            int stMinute = mTimePicker_start.getCurrentMinute();
             String stringHour = stHour > 9 ? "" + stHour : "0" + stHour;
             String stringMinute = stMinute > 9 ? "" + stMinute : "0" + stMinute;
             onsingleTimeListener.onSingleTime(stringHour + ":" + stringMinute, stHour, stMinute);
@@ -189,10 +203,10 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
         if (onDoubleTimeListener != null) {
             mTimePicker_start.clearFocus();
             mTimePicker_end.clearFocus();
-            int stHour = mTimePicker_start.getHour();
-            int stMinute = mTimePicker_start.getMinute();
-            int endHour = mTimePicker_end.getHour();
-            int endMinute = mTimePicker_end.getMinute();
+            int stHour = mTimePicker_start.getCurrentHour();
+            int stMinute = mTimePicker_start.getCurrentMinute();
+            int endHour = mTimePicker_end.getCurrentHour();
+            int endMinute = mTimePicker_end.getCurrentMinute();
             String stringStHour = stHour > 9 ? "" + stHour : "0" + stHour;
             String stringStMinute = stMinute > 9 ? "" + stMinute : "0" + stMinute;
             String stringEndHour = endHour > 9 ? "" + endHour : "0" + endHour;
@@ -207,14 +221,13 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
         super.onStop();
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public Bundle onSaveInstanceState() {
         Bundle state = super.onSaveInstanceState();
-        state.putInt(START_HOUR, mTimePicker_start.getHour());
-        state.putInt(START_MINUTE, mTimePicker_start.getMinute());
-        state.putInt(END_HOUR, mTimePicker_end.getHour());
-        state.putInt(END_MINUTE, mTimePicker_end.getMinute());
+        state.putInt(START_HOUR, mTimePicker_start.getCurrentHour());
+        state.putInt(START_MINUTE, mTimePicker_start.getCurrentMinute());
+        state.putInt(END_HOUR, mTimePicker_end.getCurrentHour());
+        state.putInt(END_MINUTE, mTimePicker_end.getCurrentMinute());
         return state;
     }
 
