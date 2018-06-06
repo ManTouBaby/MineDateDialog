@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
@@ -13,7 +14,10 @@ import android.widget.TextView;
 import com.hrw.datedialoglib.R;
 
 import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * @author:Administrator
@@ -134,6 +138,56 @@ public class DateDialog extends AlertDialog implements DialogInterface.OnClickLi
         }
     }
 
+
+    public DateDialog setStartMinDate(String date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date minDate = dateFormat.parse(date);
+            mDatePicker_start.setMinDate(minDate.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.i("DateDialog", "the format of param do`not match");
+        }
+        return this;
+    }
+
+    public DateDialog setStartMaxDate(String date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date minDate = dateFormat.parse(date);
+            mDatePicker_start.setMaxDate(minDate.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.i("DateDialog", "the format of param do`not match");
+        }
+        return this;
+    }
+
+    public DateDialog setEndMinDate(String date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date minDate = dateFormat.parse(date);
+            mDatePicker_end.setMinDate(minDate.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.i("DateDialog", "the format of param do`not match");
+        }
+        return this;
+    }
+
+
+    public DateDialog setEndMaxDate(String date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date minDate = dateFormat.parse(date);
+            mDatePicker_end.setMaxDate(minDate.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.i("DateDialog", "the format of param do`not match");
+        }
+        return this;
+    }
+
     /**
      * 隐藏DatePicker中的日期显示
      *
@@ -204,8 +258,10 @@ public class DateDialog extends AlertDialog implements DialogInterface.OnClickLi
      * @param monthOfYear The date month.
      * @param dayOfMonth  The date day of month.
      */
-    public void updateStartDate(int year, int monthOfYear, int dayOfMonth) {
+    public DateDialog setStartDefaultDate(int year, int monthOfYear, int dayOfMonth) {
+        monthOfYear--;
         mDatePicker_start.updateDate(year, monthOfYear, dayOfMonth);
+        return this;
     }
 
     /**
@@ -215,8 +271,10 @@ public class DateDialog extends AlertDialog implements DialogInterface.OnClickLi
      * @param monthOfYear The date month.
      * @param dayOfMonth  The date day of month.
      */
-    public void updateEndDate(int year, int monthOfYear, int dayOfMonth) {
+    public DateDialog setEndDefaultDate(int year, int monthOfYear, int dayOfMonth) {
+        monthOfYear--;
         mDatePicker_end.updateDate(year, monthOfYear, dayOfMonth);
+        return this;
     }
 
     private void tryNotifyDateSet() {
@@ -225,7 +283,7 @@ public class DateDialog extends AlertDialog implements DialogInterface.OnClickLi
             mDatePicker_end.clearFocus();
             int stYear = mDatePicker_start.getYear();
             int stMonth = mDatePicker_start.getMonth();
-            int stDay = mDatePicker_start.getDayOfMonth()+1;
+            int stDay = mDatePicker_start.getDayOfMonth() + 1;
             int endYear = mDatePicker_end.getYear();
             int endMonth = mDatePicker_end.getMonth();
             int endDay = mDatePicker_end.getDayOfMonth();

@@ -1,10 +1,8 @@
 package com.hrw.datedialoglib.date;
 
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +28,6 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
     private OnTimeSetListener mCallBack;
     OnSingleTimeListener onsingleTimeListener;
     OnDoubleTimeListener onDoubleTimeListener;
-
 
 
     /**
@@ -154,6 +151,7 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
     public TimePicker getTimePickerEnd() {
         return mTimePicker_end;
     }
+    
 
     /**
      * Sets the start date.
@@ -161,10 +159,10 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
      * @param hour   The time hour.
      * @param minute The time minute.
      */
-    @TargetApi(Build.VERSION_CODES.M)
-    public void setStartDefaultTime(int hour, int minute) {
-        mTimePicker_start.setHour(hour);
-        mTimePicker_start.setMinute(minute);
+    public TimeDialog setStartDefaultTime(int hour, int minute) {
+        mTimePicker_start.setCurrentHour(hour);
+        mTimePicker_start.setCurrentMinute(minute);
+        return this;
     }
 
     /**
@@ -173,10 +171,10 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
      * @param hour   The time hour.
      * @param minute The time minute.
      */
-    @TargetApi(Build.VERSION_CODES.M)
-    public void setEndDefaultTime(int hour, int minute) {
-        mTimePicker_end.setHour(hour);
-        mTimePicker_end.setMinute(minute);
+    public TimeDialog setEndDefaultTime(int hour, int minute) {
+        mTimePicker_end.setCurrentHour(hour);
+        mTimePicker_end.setCurrentMinute(minute);
+        return this;
     }
 
     //    @TargetApi(Build.VERSION_CODES.M)

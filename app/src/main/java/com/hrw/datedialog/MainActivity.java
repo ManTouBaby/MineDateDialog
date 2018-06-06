@@ -26,7 +26,9 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(MainActivity.this, time, Toast.LENGTH_SHORT).show();
 
                             }
-                        }).show();
+                        })
+                        .setStartDefaultTime(12, 12)
+                        .show();
                 break;
             case R.id.bt_dialog_time:
                 new TimeDialog(this, true)
@@ -44,7 +46,11 @@ public class MainActivity extends AppCompatActivity {
                             public void onSingleDate(String date, int year, int month, int day) {
                                 Toast.makeText(MainActivity.this, date, Toast.LENGTH_SHORT).show();
                             }
-                        }).show();
+                        })
+                        .setStartDefaultDate(2018, 2, 2)
+                        .setStartMinDate("2016-09-10")
+                        .setStartMaxDate("2018-12-12")
+                        .show();
                 break;
             case R.id.bt_dialog_date:
                 new DateDialog(this, true)
