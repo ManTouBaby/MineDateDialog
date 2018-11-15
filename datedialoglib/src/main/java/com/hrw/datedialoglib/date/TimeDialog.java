@@ -32,6 +32,7 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
     OnDoubleTimeListener onDoubleTimeListener;
 
     public TimeDialog setStartTitle(String title) {
+        tvStTitle.setVisibility(View.VISIBLE);
         tvStTitle.setText(title);
         return this;
     }

@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
                             }
                         })
+                        .setStartTitle("测试开始时间")
                         .setStartDefaultTime(12, 12)
                         .show();
                 break;
@@ -38,7 +39,10 @@ public class MainActivity extends AppCompatActivity {
                             public void onDoubleTime(String stTime, int startHour, int startMinute, String endTime, int endHour, int endMinute) {
                                 Toast.makeText(MainActivity.this, stTime + "~~" + endTime, Toast.LENGTH_SHORT).show();
                             }
-                        }).show();
+                        })
+                        .setStartTitle("测试开始时间")
+                        .setEndTitle("测试结束时间")
+                        .show();
                 break;
             case R.id.bt_dialog_date_single:
                 new DateDialog(this, false)
@@ -48,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(MainActivity.this, date, Toast.LENGTH_SHORT).show();
                             }
                         })
-                        .setStartTitle("测试开始日期")
                         .setStartDefaultDate(2018, 2, 2)
                         .setStartMinDate("2016-09-10")
                         .setStartMaxDate("2018-12-12")
