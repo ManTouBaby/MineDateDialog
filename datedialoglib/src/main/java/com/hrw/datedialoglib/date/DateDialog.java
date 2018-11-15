@@ -26,6 +26,8 @@ import java.util.Date;
  */
 
 public class DateDialog extends AlertDialog implements DialogInterface.OnClickListener, DatePicker.OnDateChangedListener {
+    private TextView tvStTitle;
+    private TextView tvEndTitle;
     private String START_YEAR = "start_year";
     private String END_YEAR = "end_year";
     private String START_MONTH = "start_month";
@@ -37,6 +39,19 @@ public class DateDialog extends AlertDialog implements DialogInterface.OnClickLi
     private OnDateSetListener mCallBack;
     OnSingleDateListener onSingleDateListener;
     OnDoubleDateListener onDoubleDateListener;
+
+
+    public DateDialog setStartTitle(String title) {
+        tvStTitle.setVisibility(View.VISIBLE);
+        tvStTitle.setText(title);
+        return this;
+    }
+
+    public DateDialog setEndTitle(String title) {
+        tvEndTitle.setVisibility(View.VISIBLE);
+        tvEndTitle.setText(title);
+        return this;
+    }
 
 
     /**
@@ -118,12 +133,12 @@ public class DateDialog extends AlertDialog implements DialogInterface.OnClickLi
             mDatePicker_end.init(year, monthOfYear, dayOfMonth, this);
         }
 
+        tvStTitle = (TextView) view.findViewById(R.id.tv_date_picker_stLabel);
+        tvEndTitle = (TextView) view.findViewById(R.id.tv_date_picker_endLabel);
         if (!isShowDouble) {
             LinearLayout llEndDateContainer = (LinearLayout) view.findViewById(R.id.ll_end_date_container);
-            TextView llstTitle = (TextView) view.findViewById(R.id.tv_date_picker_stLabel);
             llEndDateContainer.setVisibility(View.GONE);
-            llstTitle.setVisibility(View.GONE);
-
+            tvStTitle.setVisibility(View.GONE);
             DatePickerUtils.resizeSinglePicker(mDatePicker_start);
         } else {
             DatePickerUtils.resizePicker(mDatePicker_start);

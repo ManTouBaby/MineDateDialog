@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.hrw.datedialoglib.date.DateDialog;
+import com.hrw.datedialoglib.date.DateTimeDialog;
 import com.hrw.datedialoglib.date.TimeDialog;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(MainActivity.this, date, Toast.LENGTH_SHORT).show();
                             }
                         })
+                        .setStartTitle("测试开始日期")
                         .setStartDefaultDate(2018, 2, 2)
                         .setStartMinDate("2016-09-10")
                         .setStartMaxDate("2018-12-12")
@@ -59,7 +61,24 @@ public class MainActivity extends AppCompatActivity {
                             public void onDoubleDate(String stDate, int stYear, int stMonth, int stDay, String endDate, int endYear, int endMonth, int endDay) {
                                 Toast.makeText(MainActivity.this, stDate + "~~" + endDate, Toast.LENGTH_SHORT).show();
                             }
-                        }).show();
+                        })
+                        .setStartTitle("测试开始日期")
+                        .setEndTitle("测试结束日期")
+                        .show();
+                break;
+            case R.id.bt_dialog_date_time:
+                new DateTimeDialog(this)
+                        .setTitle("测试选择日期时间")
+                        .setDefaultDate(2019, 8, 1)
+                        .setDefaultTime(12, 11)
+                        .setStartMinDate("2018")
+                        .setOnDateTimeListener(new DateTimeDialog.OnDateTimeListener() {
+                            @Override
+                            public void onDateTime(String date, String time, int year, int month, int day, int hour, int minute) {
+                                System.out.println("当前日期时间:" + date + " " + time);
+                            }
+                        })
+                        .show();
                 break;
         }
     }

@@ -1,31 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <Button
         android:id="@+id/bt_dialog_time_single"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="弹出开始时间选择框"
-        android:onClick="showDialog"/>
+        android:onClick="showDialog"
+        android:text="弹出开始时间选择框" />
+
     <Button
         android:id="@+id/bt_dialog_time"
         android:layout_width="match_parent"
-        android:text="弹出开始结束时间选择框"
         android:layout_height="wrap_content"
-        android:onClick="showDialog"/>
+        android:onClick="showDialog"
+        android:text="弹出开始结束时间选择框" />
+
     <Button
         android:id="@+id/bt_dialog_date_single"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="弹出开始日期选择框"
-        android:onClick="showDialog"/>
+        android:onClick="showDialog"
+        android:text="弹出开始日期选择框" />
+
     <Button
         android:id="@+id/bt_dialog_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="弹出开始结束日期选择框"
-        android:onClick="showDialog"/>
+        android:onClick="showDialog"
+        android:text="弹出开始结束日期选择框" />
+
+    <Button
+        android:id="@+id/bt_dialog_date_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="showDialog"
+        android:text="弹出日期时间选择框" />
 </LinearLayout>

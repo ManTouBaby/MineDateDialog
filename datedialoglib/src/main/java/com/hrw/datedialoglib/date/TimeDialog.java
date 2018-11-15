@@ -19,15 +19,27 @@ import com.hrw.datedialoglib.R;
  */
 
 public class TimeDialog extends AlertDialog implements DialogInterface.OnClickListener {
+    private TextView tvStTitle;
+    private TextView tvEndTitle;
     private String START_HOUR = "start_hour";
-    private String END_HOUR = "end_hour";
     private String START_MINUTE = "start_minute";
+    private String END_HOUR = "end_hour";
     private String END_MINUTE = "end_minute";
     private TimePicker mTimePicker_start;
     private TimePicker mTimePicker_end;
     private OnTimeSetListener mCallBack;
     OnSingleTimeListener onsingleTimeListener;
     OnDoubleTimeListener onDoubleTimeListener;
+
+    public TimeDialog setStartTitle(String title) {
+        tvStTitle.setText(title);
+        return this;
+    }
+
+    public TimeDialog setEndTitle(String title) {
+        tvEndTitle.setText(title);
+        return this;
+    }
 
 
     /**
@@ -104,13 +116,13 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
             }
         });
 
+        tvStTitle = (TextView) view.findViewById(R.id.tv_time_picker_stLabel);
+        tvEndTitle = (TextView) view.findViewById(R.id.tv_time_picker_endLabel);
 
         if (!isShowDouble) {
             LinearLayout llEndDateContainer = (LinearLayout) view.findViewById(R.id.ll_end_time_container);
-            TextView llstTitle = (TextView) view.findViewById(R.id.tv_time_picker_stLabel);
             llEndDateContainer.setVisibility(View.GONE);
-            llstTitle.setVisibility(View.GONE);
-
+            tvStTitle.setVisibility(View.GONE);
             DatePickerUtils.resizeSinglePicker(mTimePicker_start);
         } else {
             DatePickerUtils.resizePicker(mTimePicker_start);
@@ -151,7 +163,7 @@ public class TimeDialog extends AlertDialog implements DialogInterface.OnClickLi
     public TimePicker getTimePickerEnd() {
         return mTimePicker_end;
     }
-    
+
 
     /**
      * Sets the start date.
